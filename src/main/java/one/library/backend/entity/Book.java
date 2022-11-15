@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 public class Book extends AbstractEntity {
-//    Arsenal >>> Tottenham
+//    Arsenal the best of EPL on the top #1
 
     public enum Country {
         Kyrgyzstan, Russia, UnitedStates, UnitedKingdom, Germany
