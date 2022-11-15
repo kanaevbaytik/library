@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 public class Book extends AbstractEntity {
-//    Arsenal <<< Tottenham
+//    Arsenal >>> Tottenham
 
     public enum Country {
         Kyrgyzstan, Russia, UnitedStates, UnitedKingdom, Germany
