@@ -8,7 +8,7 @@ import one.library.backend.entity.Author;
 public class MainView extends VerticalLayout {
 
     public MainView() {
-
+        System.out.println();
     }
 
 }
