@@ -18,8 +18,12 @@ import one.library.backend.entity.Descriptor;
 import one.library.backend.service.AuthorService;
 
 import com.vaadin.flow.component.textfield.TextField;
+import one.library.backend.service.BookService;
 import one.library.backend.service.CategoryService;
 import one.library.backend.service.DescriptorService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("New book | Library")
@@ -28,6 +32,7 @@ public class NewBookView extends VerticalLayout {
     private final AuthorService authorService;
     private final CategoryService categoryService;
     private final DescriptorService descriptorService;
+    private final BookService bookService;
 
     TextField titleF = new TextField("Title");
     Autocomplete authorF = new Autocomplete(3);
@@ -40,28 +45,48 @@ public class NewBookView extends VerticalLayout {
     NumberField volumeF = new NumberField("Volume");
     ComboBox<Category> categoryComboBox = new ComboBox<>("Category");
     MultiSelectComboBox<Descriptor> descriptorMultiSelectComboBox = new MultiSelectComboBox<>("Descriptors");
-    TextArea annotation = new TextArea("Annotation");
+    TextArea annotationF = new TextArea("Annotation");
 
     Button saveButton = new Button("Save", this::save);
 
     private void save(ClickEvent<Button> buttonClickEvent) {
         String title = titleF.getValue();
-        Author author = authorService.getOneByName(authorF.getValue());
-        String country = countryComboBox.getValue().name();
-        String language = languageComboBox.getValue().name();
+        Author author = authorService.save(authorF.getValue());
+        Book.Country country = countryComboBox.getValue();
+        Book.Language language = languageComboBox.getValue();
         int year = yearF.getValue().intValue();
         String ISBN = ISBNf.getValue();
-        String edition = editionInfoComboBox.getValue().name();
+        Book.EditionInfo edition = editionInfoComboBox.getValue();
         int price = priceF.getValue().intValue();
         int volume = volumeF.getValue().intValue();
         Category category = categoryComboBox.getValue();
+        Set<Descriptor> descriptors = descriptorMultiSelectComboBox.getValue();
+        String annotation = annotationF.getValue();
 
+        bookService.save(new Book(
+                title,
+                author,
+                country,
+                language,
+                edition,
+                year,
+                ISBN,
+                price,
+                volume,
+                category,
+                descriptors,
+                annotation,
+                true,
+                true,
+                true
+        ));
     }
 
-    public NewBookView(AuthorService authorService, CategoryService categoryService, DescriptorService descriptorService) {
+    public NewBookView(AuthorService authorService, CategoryService categoryService, DescriptorService descriptorService, BookService bookService) {
         this.authorService = authorService;
         this.categoryService = categoryService;
         this.descriptorService = descriptorService;
+        this.bookService = bookService;
 
         titleF.setClearButtonVisible(true);
         ISBNf.setClearButtonVisible(true);
@@ -85,7 +110,8 @@ public class NewBookView extends VerticalLayout {
                 editionInfoComboBox,
                 new HorizontalLayout(priceF, volumeF),
                 new HorizontalLayout(categoryComboBox, descriptorMultiSelectComboBox),
-                annotation
+                annotationF,
+                saveButton
         );
     }
 

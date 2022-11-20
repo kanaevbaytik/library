@@ -27,4 +27,11 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
+    public Author save(String name) {
+        if (authorRepository.existsAuthorByName(name)) {
+            return authorRepository.findAuthorByName(name);
+        } else {
+            return authorRepository.save(new Author(name));
+        }
+    }
 }

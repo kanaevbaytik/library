@@ -5,6 +5,8 @@ import one.library.backend.entity.auxiliaryEntity.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -67,7 +69,7 @@ public class Book extends AbstractEntity {
             joinColumns = { @JoinColumn(name = "book_id") },
             inverseJoinColumns = { @JoinColumn(name = "descriptor_id") }
     )
-    private List<Descriptor> descriptors = new ArrayList<>();
+    private Collection<Descriptor> descriptors = new HashSet<>();
     @NotNull
     private String annotation = "";
 
@@ -82,6 +84,24 @@ public class Book extends AbstractEntity {
     private boolean containsVideo;
 
     public Book() {
+    }
+
+    public Book(String title, Author author, Country country, Language language, EditionInfo editionInfo, int year, String ISBN, int price, int volume, Category category, Collection<Descriptor> descriptors, String annotation, boolean containsImages, boolean containsAudio, boolean containsVideo) {
+        this.title = title;
+        this.author = author;
+        this.country = country;
+        this.language = language;
+        this.editionInfo = editionInfo;
+        this.year = year;
+        this.ISBN = ISBN;
+        this.price = price;
+        this.volume = volume;
+        this.category = category;
+        this.descriptors = descriptors;
+        this.annotation = annotation;
+        this.containsImages = containsImages;
+        this.containsAudio = containsAudio;
+        this.containsVideo = containsVideo;
     }
 
     public String getTitle() {
@@ -128,7 +148,7 @@ public class Book extends AbstractEntity {
         return category;
     }
 
-    public List<Descriptor> getDescriptors() {
+    public Collection<Descriptor> getDescriptors() {
         return descriptors;
     }
 
