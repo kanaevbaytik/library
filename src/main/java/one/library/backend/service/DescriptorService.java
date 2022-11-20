@@ -4,6 +4,8 @@ import one.library.backend.entity.Descriptor;
 import one.library.backend.repository.DescriptorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class DescriptorService {
 
@@ -17,4 +19,7 @@ public class DescriptorService {
         return descriptorRepository.save(descriptor);
     }
 
+    public ArrayList<Descriptor> getAll() {
+        return (ArrayList<Descriptor>) descriptorRepository.findAll();
+    }
 }

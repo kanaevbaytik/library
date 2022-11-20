@@ -5,7 +5,6 @@ import one.library.backend.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AuthorService {
@@ -16,16 +15,16 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public List<String> getAuthorNames(String name) {
-        ArrayList<String> authorNames = new ArrayList<>();
-        ArrayList<Author> authors = (ArrayList<Author>) authorRepository.findByName(name);
-        for (int i = 0; i < authors.size(); i++) {
-            authorNames.add(authors.get(i).getName());
+    public ArrayList<String> getAllAsString(String name) {
+        ArrayList<String> authors = new ArrayList<>();
+        for (Author author : authorRepository.findAllByName(name)) {
+            authors.add(author.getName());
         }
-        return authorNames;
+        return authors;
     }
 
     public Author save(Author author) {
         return authorRepository.save(author);
     }
+
 }
